@@ -35,7 +35,7 @@ class Resource {
             'wood': { 
                 color: '#8B4513', 
                 emoji: '🪵',
-                image: 'assets/images/wood.png',
+                image: 'assets/images/woodd.png',
                 name: 'Madeira',
                 rarity: 0.05
             }
@@ -140,7 +140,7 @@ class ResourceManager {
             { type: 'apple', weight: 30 },
             { type: 'grass', weight: 50 },
             { type: 'stone', weight: 15 },
-            { type: 'wood', weight: 5 }
+            { type: 'woodd', weight: 5 }
         ];
         
         // Seleciona tipo baseado no peso
