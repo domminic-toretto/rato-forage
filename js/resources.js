@@ -35,7 +35,7 @@ class Resource {
             'wood': { 
                 color: '#8B4513', 
                 emoji: '🪵',
-                image: 'assets/images/woodd.png',
+                image: 'assets/images/wood.png',
                 name: 'Madeira',
                 rarity: 0.05
             }
