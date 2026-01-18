@@ -2,34 +2,47 @@
 
 class Game {
     constructor() {
-        // Canvas e contexto
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
         
-        // Estado do jogo
         this.gameStarted = false;
         this.gamePaused = false;
         this.lastTime = 0;
         
-        // Input do teclado
         this.keys = {};
         
-        // Inicializa sistemas do jogo
-        this.initSystems();
+        // Carrega imagem de fundo
+        this.loadBackground();
         
-        // Configura event listeners
+        this.initSystems();
         this.setupEventListeners();
+    }
+
+    // Carrega imagem de fundo do mapa
+    loadBackground() {
+        this.backgroundImage = new Image();
+        this.backgroundLoaded = false;
+        
+        this.backgroundImage.onload = () => {
+            this.backgroundLoaded = true;
+            console.log('✅ Fundo carregado!');
+        };
+        
+        this.backgroundImage.onerror = () => {
+            console.warn('⚠️ Imagem de fundo não encontrada, usando gradiente');
+            this.backgroundLoaded = false;
+        };
+        
+        this.backgroundImage.src = 'assets/images/background.png';
     }
 
     // Inicializa todos os sistemas
     initSystems() {
-        // Cria jogador no centro do canvas
         this.player = new Player(
-            this.canvas.width / 2 - 20,
-            this.canvas.height / 2 - 20
+            this.canvas.width / 2 - 25,
+            this.canvas.height / 2 - 25
         );
 
-        // Cria sistemas
         this.inventory = new Inventory();
         this.resourceManager = new ResourceManager();
         this.craftingSystem = new CraftingSystem();
@@ -45,11 +58,9 @@ class Game {
 
     // Configura event listeners
     setupEventListeners() {
-        // Teclado - keydown
         document.addEventListener('keydown', (e) => {
             this.keys[e.key] = true;
 
-            // Atalhos de teclado
             if (e.key === 'c' || e.key === 'C') {
                 this.craftingSystem.toggle(this.inventory);
             }
@@ -59,12 +70,10 @@ class Game {
             }
         });
 
-        // Teclado - keyup
         document.addEventListener('keyup', (e) => {
             this.keys[e.key] = false;
         });
 
-        // Botão de início
         const startButton = document.getElementById('start-button');
         if (startButton) {
             startButton.addEventListener('click', () => {
@@ -82,23 +91,12 @@ class Game {
         console.log('🚀 Iniciando jogo...');
         
         this.gameStarted = true;
-        
-        // Esconde tela de início
         this.uiManager.hideStartScreen();
-        
-        // Mostra UI do jogo
         this.uiManager.showGameUI();
-        
-        // Spawna recursos iniciais
         this.resourceManager.spawnInitialResources(this.canvas, 20);
-        
-        // Atualiza UI
         this.uiManager.updateAll();
-        
-        // Mostra mensagem de boas-vindas
         this.uiManager.showNotification('🎮 Bem-vindo ao Forager!', 'success');
         
-        // Inicia loop do jogo
         this.lastTime = performance.now();
         requestAnimationFrame((time) => this.gameLoop(time));
     }
@@ -107,20 +105,13 @@ class Game {
     gameLoop(currentTime) {
         if (!this.gameStarted) return;
 
-        // Calcula delta time
         const deltaTime = currentTime - this.lastTime;
         this.lastTime = currentTime;
 
-        // Limpa canvas
         this.clearCanvas();
-
-        // Atualiza
         this.update(currentTime);
-
-        // Desenha
         this.draw();
 
-        // Próximo frame
         requestAnimationFrame((time) => this.gameLoop(time));
     }
 
@@ -128,16 +119,11 @@ class Game {
     update(currentTime) {
         if (this.gamePaused) return;
 
-        // Atualiza jogador
         this.player.handleInput(this.keys);
         this.player.update(this.canvas);
-
-        // Atualiza recursos (spawn)
         this.resourceManager.update(this.canvas, currentTime);
 
-        // Verifica colisões com recursos
         if (this.resourceManager.checkCollision(this.player, this.inventory)) {
-            // Recurso coletado
             this.player.collectResource();
             this.uiManager.updateAll();
         }
@@ -145,16 +131,9 @@ class Game {
 
     // Desenha tudo no canvas
     draw() {
-        // Desenha fundo (grama)
         this.drawBackground();
-
-        // Desenha recursos
         this.resourceManager.draw(this.ctx);
-
-        // Desenha jogador
         this.player.draw(this.ctx);
-
-        // Desenha HUD
         this.uiManager.drawHUD(this.ctx, this.canvas);
     }
 
@@ -163,17 +142,28 @@ class Game {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    // Desenha fundo decorativo
+    // Desenha fundo
     drawBackground() {
-        // Gradiente de fundo
+        // Se a imagem carregou, usa ela como fundo
+        if (this.backgroundLoaded) {
+            // Desenha a imagem repetida (pattern)
+            const pattern = this.ctx.createPattern(this.backgroundImage, 'repeat');
+            if (pattern) {
+                this.ctx.fillStyle = pattern;
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                return;
+            }
+        }
+        
+        // Fallback: Gradiente
         const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-        gradient.addColorStop(0, '#87CEEB');  // Céu
-        gradient.addColorStop(1, '#90EE90');  // Grama
+        gradient.addColorStop(0, '#87CEEB');
+        gradient.addColorStop(1, '#90EE90');
         
         this.ctx.fillStyle = gradient;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Padrão de grama (pontos decorativos)
+        // Padrão de grama
         this.ctx.fillStyle = 'rgba(34, 139, 34, 0.1)';
         for (let i = 0; i < 100; i++) {
             const x = (i * 97) % this.canvas.width;
@@ -182,21 +172,19 @@ class Game {
         }
     }
 
-    // Pausa/despausa o jogo
+    // Pausa/despausa
     togglePause() {
         this.gamePaused = !this.gamePaused;
         console.log(this.gamePaused ? '⏸️ Jogo pausado' : '▶️ Jogo retomado');
     }
 }
 
-// Inicializa o jogo quando a página carregar
+// Inicializa o jogo
 window.addEventListener('load', () => {
     console.log('🎮 Forager Game - Carregado!');
     console.log('📚 SENAI Dr. Celso Charuri - 2026');
     
     const game = new Game();
-    
-    // Disponibiliza globalmente para debug
     window.game = game;
     
     console.log('✅ Jogo pronto! Clique em INICIAR JOGO para começar.');
