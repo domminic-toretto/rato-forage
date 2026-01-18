@@ -140,7 +140,7 @@ class ResourceManager {
             { type: 'apple', weight: 30 },
             { type: 'grass', weight: 50 },
             { type: 'stone', weight: 15 },
-            { type: 'woodd', weight: 5 }
+            { type: 'wood', weight: 5 }
         ];
         
         // Seleciona tipo baseado no peso
