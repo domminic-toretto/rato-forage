@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forager Game - SENAI</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Tela de Início -->
+    <div id="start-screen">
+        <div class="start-content">
+            <h1>🎮 FORAGER GAME</h1>
+            <p class="subtitle">Colete recursos, crie ferramentas e explore!</p>
+            <button id="start-button" class="game-button">INICIAR JOGO</button>
+            <div class="controls-info">
+                <h3>Controles:</h3>
+                <p>🎯 WASD ou Setas - Mover</p>
+                <p>📦 C - Abrir Crafting</p>
+                <p>🎒 I - Ver Inventário</p>
+            </div>
+            <p class="credits">SENAI Dr. Celso Charuri - 2026</p>
+        </div>
+    </div>
+
+    <!-- Game Canvas -->
+    <canvas id="gameCanvas" width="1024" height="768"></canvas>
+
+    <!-- UI Container -->
+    <div id="ui-container">
+        <!-- Inventário Display -->
+        <div id="inventory-display">
+            <h3>📦 Inventário</h3>
+            <div id="inventory-items"></div>
+        </div>
+
+        <!-- Crafting Menu -->
+        <div id="crafting-menu" class="hidden">
+            <div class="crafting-header">
+                <h3>🔨 Crafting</h3>
+                <button id="close-crafting">✖</button>
+            </div>
+            <div id="crafting-recipes"></div>
+        </div>
+
+        <!-- Stats Display -->
+        <div id="stats-display">
+            <p>⭐ Nível: <span id="level">1</span></p>
+            <p>🎯 Recursos Coletados: <span id="total-collected">0</span></p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/resources.js"></script>
+    <script src="js/inventory.js"></script>
+    <script src="js/crafting.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
