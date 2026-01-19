@@ -33,7 +33,7 @@ class Game {
             this.backgroundLoaded = false;
         };
         
-        this.backgroundImage.src = 'assets/images/backgroundd.png';
+        this.backgroundImage.src = 'assets/images/background.png';
     }
 
     // Inicializa todos os sistemas
@@ -109,18 +109,18 @@ class Game {
         this.lastTime = currentTime;
 
         this.clearCanvas();
-        this.update(currentTime);
+        this.update(currentTime, deltaTime);
         this.draw();
 
         requestAnimationFrame((time) => this.gameLoop(time));
     }
 
     // Atualiza lógica do jogo
-    update(currentTime) {
+    update(currentTime, deltaTime) {
         if (this.gamePaused) return;
 
         this.player.handleInput(this.keys);
-        this.player.update(this.canvas);
+        this.player.update(this.canvas, deltaTime);
         this.resourceManager.update(this.canvas, currentTime);
 
         if (this.resourceManager.checkCollision(this.player, this.inventory)) {
@@ -155,20 +155,41 @@ class Game {
             }
         }
         
-        // Fallback: Gradiente
+        // ============================================
+        // PERSONALIZE O FUNDO AQUI! 🎨
+        // ============================================
+        
+        // OPÇÃO 1: Gradiente Céu → Grama (Padrão)
         const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-        gradient.addColorStop(0, '#87CEEB');
-        gradient.addColorStop(1, '#90EE90');
+        gradient.addColorStop(0, '#87CEEB');  // ← Céu azul claro
+        gradient.addColorStop(1, '#90EE90');  // ← Grama verde claro
+        
+        // OPÇÃO 2: Fundo Sólido (descomente para usar)
+        // this.ctx.fillStyle = '#8FBC8F'; // Verde musgo
+        // this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        // return; // Pare aqui se usar fundo sólido
+        
+        // OPÇÃO 3: Gradiente Escuro (noite)
+        // gradient.addColorStop(0, '#1a1a2e');  // Céu escuro
+        // gradient.addColorStop(1, '#16213e');  // Chão escuro
+        
+        // OPÇÃO 4: Deserto
+        // gradient.addColorStop(0, '#FFD700');  // Céu amarelo
+        // gradient.addColorStop(1, '#DEB887');  // Areia
+        
+        // OPÇÃO 5: Oceano
+        // gradient.addColorStop(0, '#4A90E2');  // Céu azul
+        // gradient.addColorStop(1, '#1E3A8A');  // Água profunda
         
         this.ctx.fillStyle = gradient;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Padrão de grama
-        this.ctx.fillStyle = 'rgba(34, 139, 34, 0.1)';
-        for (let i = 0; i < 100; i++) {
+        // Padrão decorativo de grama (pontos)
+        this.ctx.fillStyle = 'rgba(34, 139, 34, 0.15)'; // ← Opacidade dos pontos
+        for (let i = 0; i < 150; i++) { // ← Quantidade de pontos
             const x = (i * 97) % this.canvas.width;
             const y = (i * 73) % this.canvas.height;
-            this.ctx.fillRect(x, y, 3, 3);
+            this.ctx.fillRect(x, y, 4, 4); // ← Tamanho dos pontos
         }
     }
 
