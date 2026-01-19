@@ -4,8 +4,8 @@ class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.width = 580;  // ← AUMENTEI de 60 para 80
-        this.height = 580; // ← AUMENTEI de 60 para 80
+        this.width = 180;  // ← AUMENTEI de 60 para 80
+        this.height = 180; // ← AUMENTEI de 60 para 80
         this.speed = 4;
         this.velocityX = 0;
         this.velocityY = 0;
