@@ -65,7 +65,7 @@ class Player {
         const animPaths = {
             idle: 'assets/images/rat-idle.png',      // Frame único
             walk: 'assets/images/rat-walk.png',      // 5 frames de caminhada
-            attack: 'assets/images/rat-attack.png'   // 5 frames de ataque
+            attack: 'assets/images/rat-attackk.png'   // 5 frames de ataque
         };
 
         for (const [animName, path] of Object.entries(animPaths)) {
