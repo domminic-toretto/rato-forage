@@ -4,8 +4,8 @@ class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.width = 80;  // ← AUMENTEI de 60 para 80
-        this.height = 80; // ← AUMENTEI de 60 para 80
+        this.width = 580;  // ← AUMENTEI de 60 para 80
+        this.height = 580; // ← AUMENTEI de 60 para 80
         this.speed = 4;
         this.velocityX = 0;
         this.velocityY = 0;
@@ -21,7 +21,7 @@ class Player {
         this.isAttacking = false;
         this.currentFrame = 0;
         this.frameTimer = 0;
-        this.frameDelay = 90; // ms entre frames (ajuste para mais suave/rápido)
+        this.frameDelay = 120; // ms entre frames (ajuste para mais suave/rápido)
         
         // Configuração das Sprite Sheets
         // Os tamanhos serão calculados automaticamente quando a imagem carregar
