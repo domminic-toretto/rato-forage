@@ -26,7 +26,7 @@ class Player {
             idle: {
                 loaded: false,
                 image: null,
-                frames: 1,
+                frames: 10,
                 frameWidth: 0,
                 frameHeight: 0,
                 loop: true,
