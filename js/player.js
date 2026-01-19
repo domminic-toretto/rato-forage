@@ -271,8 +271,8 @@ class Player {
             // Verifica se é sprite sheet vertical ou horizontal
             if (anim.vertical) {
                 // Frames empilhados verticalmente (walk)
-                frameX = 0;
-                frameY = this.currentFrame * anim.frameHeight;
+              frameX = this.currentFrame * anim.frameWidth;
+                frameY = 0;
             } else {
                 // Frames lado a lado horizontalmente (attack, idle)
                 frameX = this.currentFrame * anim.frameWidth;
