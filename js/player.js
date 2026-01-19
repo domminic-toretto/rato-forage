@@ -3,7 +3,7 @@ class Player {
         this.x = x;
         this.y = y;
         this.width = 120;  // Largura visual
-        this.height = 120; // Altura visual
+        this.height = 121; // Altura visual
         this.speed = 4;
         this.velocityX = 0;
         this.velocityY = 0;
