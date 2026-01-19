@@ -61,6 +61,13 @@ class Game {
         document.addEventListener('keydown', (e) => {
             this.keys[e.key] = true;
 
+            // Inicia jogo com ENTER se ainda não começou
+            if (e.key === 'Enter' && !this.gameStarted) {
+                console.log('🎮 ENTER pressionado - Iniciando jogo!');
+                this.startGame();
+                return;
+            }
+
             if (e.key === 'c' || e.key === 'C') {
                 this.craftingSystem.toggle(this.inventory);
             }
@@ -74,11 +81,24 @@ class Game {
             this.keys[e.key] = false;
         });
 
-        const startButton = document.getElementById('start-button');
-        if (startButton) {
-            startButton.addEventListener('click', () => {
-                this.startGame();
-            });
+        // Botão de início - usando DOMContentLoaded para garantir que existe
+        const setupStartButton = () => {
+            const startButton = document.getElementById('start-button');
+            if (startButton) {
+                console.log('✅ Botão de início encontrado!');
+                startButton.addEventListener('click', () => {
+                    console.log('🎮 Botão clicado!');
+                    this.startGame();
+                });
+            } else {
+                console.warn('⚠️ Botão start-button não encontrado!');
+            }
+        };
+
+        // Tenta configurar agora e também quando documento carregar
+        setupStartButton();
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupStartButton);
         }
 
         console.log('⌨️ Event listeners configurados!');
@@ -161,7 +181,7 @@ class Game {
         
         // OPÇÃO 1: Gradiente Céu → Grama (Padrão)
         const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-        gradient.addColorStop(0, '#90EE90');  // ← Céu azul claro
+        gradient.addColorStop(0, '#87CEEB');  // ← Céu azul claro
         gradient.addColorStop(1, '#90EE90');  // ← Grama verde claro
         
         // OPÇÃO 2: Fundo Sólido (descomente para usar)
@@ -203,10 +223,10 @@ class Game {
 // Inicializa o jogo
 window.addEventListener('load', () => {
     console.log('🎮 Forager Game - Carregado!');
-    console.log('tiginho games GG - 2026');
+    console.log('📚 SENAI Dr. Celso Charuri - 2026');
     
     const game = new Game();
     window.game = game;
     
-    console.log('✅  Jogo pronto! Clique em INICIAR JOGO para começar.');
+    console.log('✅ Jogo pronto! Clique em INICIAR JOGO para começar.');
 });
