@@ -1,11 +1,9 @@
-// Classe do Jogador - RATINHO COM ANIMAÇÃO
-
 class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.width = 120;  // ← AUMENTEI de 60 para 80
-        this.height = 120; // ← AUMENTEI de 60 para 80
+        this.width = 120;  // Largura visual
+        this.height = 120; // Altura visual
         this.speed = 4;
         this.velocityX = 0;
         this.velocityY = 0;
@@ -16,22 +14,21 @@ class Player {
         this.experienceToNextLevel = 100;
         
         // Sistema de Animação
-        this.direction = 'right'; // Ratinho olha para direita por padrão
+        this.direction = 'right';
         this.isMoving = false;
         this.isAttacking = false;
         this.currentFrame = 0;
         this.frameTimer = 0;
-        this.frameDelay = 80; // ms entre frames (ajuste para mais suave/rápido)
+        this.frameDelay = 80;
         
         // Configuração das Sprite Sheets
-        // Os tamanhos serão calculados automaticamente quando a imagem carregar
         this.animations = {
             idle: {
                 loaded: false,
                 image: null,
                 frames: 1,
-                frameWidth: 0,    // Será calculado
-                frameHeight: 0,   // Será calculado
+                frameWidth: 0,
+                frameHeight: 0,
                 loop: true,
                 vertical: false
             },
@@ -39,20 +36,22 @@ class Player {
                 loaded: false,
                 image: null,
                 frames: 5,
-                frameWidth: 120,    // Será calculado
-                frameHeight: 64
-                ,   // Será calculado
+                frameWidth: 0,   // Será calculado
+                frameHeight: 0,  // Será calculado
                 loop: true,
-                vertical: false    // Frames empilhados verticalmente
+                // ⚠️ ATENÇÃO AQUI: 
+                // Se sua imagem é uma TORRE (vertical), mude para true. 
+                // Se é uma TIRA (horizontal), deixe false.
+                vertical: false 
             },
             attack: {
                 loaded: false,
                 image: null,
                 frames: 5,
-                frameWidth: 0,    // Será calculado
-                frameHeight: 0,   // Será calculado
+                frameWidth: 0,
+                frameHeight: 0,
                 loop: false,
-                vertical: false   // Frames lado a lado
+                vertical: false
             }
         };
 
@@ -60,13 +59,11 @@ class Player {
         this.loadAnimations();
     }
 
-    // Carrega todas as sprite sheets
     loadAnimations() {
-        // Caminhos das suas sprite sheets
         const animPaths = {
-            idle: 'assets/images/rat-idle.png',      // Frame único
-            walk: 'assets/images/rat-walk.png',      // 5 frames de caminhada
-            attack: 'assets/images/rat-attack.png'   // 5 frames de ataque
+            idle: 'assets/images/rat-idle.png',
+            walk: 'assets/images/rat-walk.png',
+            attack: 'assets/images/rat-attack.png'
         };
 
         for (const [animName, path] of Object.entries(animPaths)) {
@@ -74,36 +71,42 @@ class Player {
         }
     }
 
-    // Carrega uma sprite sheet específica
+    // --- CORREÇÃO 1: Lógica de carregamento vertical/horizontal ---
     loadAnimation(animName, path) {
         const img = new Image();
         
         img.onload = () => {
-            this.animations[animName].image = img;
-            this.animations[animName].loaded = true;
-            console.log(`✅ Animação carregada: ${animName} (${img.width}x${img.height}px)`);
-            
-            // Calcula automaticamente o tamanho de cada frame
             const anim = this.animations[animName];
+            anim.image = img;
+            anim.loaded = true;
+            
+            // Calcula tamanho do frame baseado na orientação
             if (anim.frames > 1) {
-                anim.frameWidth = img.width / anim.frames;
-                anim.frameHeight = img.height;
+                if (anim.vertical) {
+                    // Vertical: Largura total, Altura dividida
+                    anim.frameWidth = img.width;
+                    anim.frameHeight = img.height / anim.frames;
+                } else {
+                    // Horizontal: Largura dividida, Altura total
+                    anim.frameWidth = img.width / anim.frames;
+                    anim.frameHeight = img.height;
+                }
             } else {
+                // Frame único
                 anim.frameWidth = img.width;
                 anim.frameHeight = img.height;
             }
             
-            console.log(`  → Frame: ${anim.frameWidth}x${anim.frameHeight}px, Total: ${anim.frames} frames`);
+            console.log(`✅ ${animName} carregada: ${anim.frameWidth}x${anim.frameHeight}px (Vertical: ${anim.vertical})`);
         };
         
         img.onerror = () => {
-            console.warn(`⚠️ Animação não encontrada: ${path}`);
+            console.warn(`⚠️ Erro ao carregar imagem: ${path}`);
         };
         
         img.src = path;
     }
 
-    // Atualiza a animação atual
     updateAnimation(deltaTime) {
         const anim = this.animations[this.currentAnimation];
         if (!anim) return;
@@ -114,12 +117,10 @@ class Player {
             this.frameTimer = 0;
             this.currentFrame++;
 
-            // Verifica fim da animação
             if (this.currentFrame >= anim.frames) {
                 if (anim.loop) {
                     this.currentFrame = 0;
                 } else {
-                    // Se não loopa (como ataque), volta pro idle
                     this.currentFrame = anim.frames - 1;
                     if (this.currentAnimation === 'attack') {
                         this.isAttacking = false;
@@ -130,7 +131,6 @@ class Player {
         }
     }
 
-    // Define qual animação tocar
     setAnimation(animName) {
         if (this.currentAnimation !== animName && !this.isAttacking) {
             this.currentAnimation = animName;
@@ -139,31 +139,22 @@ class Player {
         }
     }
 
-    // Inicia ataque
     attack() {
         if (!this.isAttacking) {
             this.isAttacking = true;
             this.currentAnimation = 'attack';
             this.currentFrame = 0;
             this.frameTimer = 0;
-            console.log('⚔️ Ratinho ataca!');
         }
     }
 
-    // Processa input do teclado
     handleInput(keys) {
-        // Durante ataque, só aceita input de movimento (não congela)
         if (this.isAttacking) {
-            // Permite movimento durante ataque
             this.velocityX = 0;
             this.velocityY = 0;
             
-            if (keys['w'] || keys['ArrowUp']) {
-                this.velocityY = -this.speed * 0.5; // Movimento mais lento durante ataque
-            }
-            if (keys['s'] || keys['ArrowDown']) {
-                this.velocityY = this.speed * 0.5;
-            }
+            if (keys['w'] || keys['ArrowUp']) this.velocityY = -this.speed * 0.5;
+            if (keys['s'] || keys['ArrowDown']) this.velocityY = this.speed * 0.5;
             if (keys['a'] || keys['ArrowLeft']) {
                 this.velocityX = -this.speed * 0.5;
                 this.direction = 'left';
@@ -173,7 +164,6 @@ class Player {
                 this.direction = 'right';
             }
             
-            // Normaliza velocidade diagonal
             if (this.velocityX !== 0 && this.velocityY !== 0) {
                 const factor = Math.sqrt(2) / 2;
                 this.velocityX *= factor;
@@ -186,13 +176,11 @@ class Player {
         this.velocityY = 0;
         this.isMoving = false;
 
-        // Ataque com Space ou X
         if ((keys[' '] || keys['x'] || keys['X']) && !this.isAttacking) {
             this.attack();
             return;
         }
 
-        // Movimento
         if (keys['w'] || keys['ArrowUp']) {
             this.velocityY = -this.speed;
             this.isMoving = true;
@@ -212,14 +200,12 @@ class Player {
             this.direction = 'right';
         }
 
-        // Define animação baseada no movimento
         if (this.isMoving) {
             this.setAnimation('walk');
         } else {
             this.setAnimation('idle');
         }
 
-        // Normaliza velocidade diagonal
         if (this.velocityX !== 0 && this.velocityY !== 0) {
             const factor = Math.sqrt(2) / 2;
             this.velocityX *= factor;
@@ -227,25 +213,18 @@ class Player {
         }
     }
 
-    // Atualiza posição
     update(canvas, deltaTime) {
         this.x += this.velocityX;
         this.y += this.velocityY;
 
-        // Limites do canvas
         if (this.x < 0) this.x = 0;
-        if (this.x + this.width > canvas.width) {
-            this.x = canvas.width - this.width;
-        }
+        if (this.x + this.width > canvas.width) this.x = canvas.width - this.width;
         if (this.y < 0) this.y = 0;
-        if (this.y + this.height > canvas.height) {
-            this.y = canvas.height - this.height;
-        }
+        if (this.y + this.height > canvas.height) this.y = canvas.height - this.height;
 
         this.updateAnimation(deltaTime);
     }
 
-    // Desenha o jogador
     draw(ctx) {
         // Sombra
         ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
@@ -263,26 +242,25 @@ class Player {
 
         const anim = this.animations[this.currentAnimation];
 
-        // Verifica se tem sprite carregado E se tem tamanho válido
+        // Verifica validade da animação
         if (anim && anim.loaded && anim.image && anim.frameWidth > 0 && anim.frameHeight > 0) {
-            // Calcula posição do frame na sprite sheet
+            
+            // --- CORREÇÃO 2: Cálculo correto das coordenadas de recorte ---
             let frameX, frameY;
             
-            // Verifica se é sprite sheet vertical ou horizontal
             if (anim.vertical) {
-                // Frames empilhados verticalmente (walk)
-              frameX = this.currentFrame * anim.frameWidth;
-                frameY = 0;
+                // Se for vertical: X fixo, Y muda
+                frameX = 0;
+                frameY = this.currentFrame * anim.frameHeight;
             } else {
-                // Frames lado a lado horizontalmente (attack, idle)
+                // Se for horizontal: X muda, Y fixo
                 frameX = this.currentFrame * anim.frameWidth;
                 frameY = 0;
             }
 
-            // Salva contexto para flip horizontal
             ctx.save();
 
-            // Se está indo para esquerda, espelha a imagem
+            // Espelhamento Horizontal
             if (this.direction === 'left') {
                 ctx.translate(this.x + this.width, this.y);
                 ctx.scale(-1, 1);
@@ -290,7 +268,7 @@ class Player {
                     anim.image,
                     frameX, frameY,
                     anim.frameWidth, anim.frameHeight,
-                    0, 0,
+                    0, 0, // Desenha no 0,0 local (após translate)
                     this.width, this.height
                 );
             } else {
@@ -305,43 +283,27 @@ class Player {
 
             ctx.restore();
         } else {
-            // Fallback SOMENTE se sprite não carregou
             this.drawFallback(ctx);
         }
 
-        // Indicador de nível
         this.drawLevelIndicator(ctx);
     }
 
-    // Fallback quando sprite não carrega
     drawFallback(ctx) {
         ctx.fillStyle = '#8B7355';
         ctx.beginPath();
-        ctx.arc(
-            this.x + this.width / 2,
-            this.y + this.height / 2,
-            this.width / 2,
-            0,
-            Math.PI * 2
-        );
+        ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI*2);
         ctx.fill();
-
         ctx.strokeStyle = '#654321';
         ctx.lineWidth = 3;
         ctx.stroke();
-
-        // Emoji de rato
+        
         ctx.font = '35px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(
-            '🐀',
-            this.x + this.width / 2,
-            this.y + this.height / 2
-        );
+        ctx.fillText('🐀', this.x + this.width/2, this.y + this.height/2);
     }
 
-    // Desenha indicador de nível
     drawLevelIndicator(ctx) {
         ctx.font = 'bold 14px Arial';
         ctx.fillStyle = '#fff';
@@ -365,7 +327,7 @@ class Player {
         this.experience -= this.experienceToNextLevel;
         this.experienceToNextLevel = Math.floor(this.experienceToNextLevel * 1.5);
         this.speed += 0.2;
-        console.log(`🎉 LEVEL UP! Ratinho agora é nível ${this.level}!`);
+        console.log(`🎉 LEVEL UP! Ratinho nível ${this.level}!`);
     }
 
     collectResource() {
