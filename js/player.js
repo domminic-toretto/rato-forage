@@ -4,8 +4,8 @@ class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.width = 100;  // ← AUMENTEI de 60 para 80
-        this.height = 100; // ← AUMENTEI de 60 para 80
+        this.width = 80;  // ← AUMENTEI de 60 para 80
+        this.height = 80; // ← AUMENTEI de 60 para 80
         this.speed = 4;
         this.velocityX = 0;
         this.velocityY = 0;
@@ -24,33 +24,34 @@ class Player {
         this.frameDelay = 120; // ms entre frames (ajuste para mais suave/rápido)
         
         // Configuração das Sprite Sheets
-        // Tamanhos exatos das suas imagens
+        // Os tamanhos serão calculados automaticamente quando a imagem carregar
         this.animations = {
             idle: {
                 loaded: false,
                 image: null,
                 frames: 1,
-                frameWidth: 1000,   // rat-idle: 640x640
-                frameHeight: 1000,
-                loop: true
+                frameWidth: 0,    // Será calculado
+                frameHeight: 0,   // Será calculado
+                loop: true,
+                vertical: false
             },
             walk: {
                 loaded: false,
                 image: null,
-                frames: 5,         // rat-walk: 2176x3264 = 5 frames verticais
-                frameWidth: 3264,  // Largura total
-                frameHeight: 2176 /5,  // Altura dividida por 5 frames = 652.8px por frame
+                frames: 5,
+                frameWidth: 0,    // Será calculado
+                frameHeight: 0,   // Será calculado
                 loop: true,
-                vertical: false     // Frames empilhados verticalmente
+                vertical: true    // Frames empilhados verticalmente
             },
             attack: {
                 loaded: false,
                 image: null,
-                frames: 5,         // rat-attack: 3240x2160 = 5 frames horizontais
-                frameWidth: 3240 / 5,  // Largura dividida por 5 = 648px por frame
-                frameHeight: 2160,
-                loop: false,       // Ataque não loopa
-                vertical: false    // Frames lado a lado
+                frames: 5,
+                frameWidth: 0,    // Será calculado
+                frameHeight: 0,   // Será calculado
+                loop: false,
+                vertical: false   // Frames lado a lado
             }
         };
 
