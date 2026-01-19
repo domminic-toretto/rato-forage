@@ -4,8 +4,8 @@ class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.width = 130;  // ← AUMENTEI de 60 para 80
-        this.height = 130; // ← AUMENTEI de 60 para 80
+        this.width = 120;  // ← AUMENTEI de 60 para 80
+        this.height = 120; // ← AUMENTEI de 60 para 80
         this.speed = 4;
         this.velocityX = 0;
         this.velocityY = 0;
@@ -64,7 +64,7 @@ class Player {
         // Caminhos das suas sprite sheets
         const animPaths = {
             idle: 'assets/images/rat-idle.png',      // Frame único
-            walk: 'assets/images/rat-walk.png',      // 5 frames de caminhada
+            walk: 'assets/images/rat-walkk.png',      // 5 frames de caminhada
             attack: 'assets/images/rat-attackk.png'   // 5 frames de ataque
         };
 
