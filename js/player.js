@@ -21,7 +21,7 @@ class Player {
         this.isAttacking = false;
         this.currentFrame = 0;
         this.frameTimer = 0;
-        this.frameDelay = 35; // ms entre frames (ajuste para mais suave/rápido)
+        this.frameDelay = 60; // ms entre frames (ajuste para mais suave/rápido)
         
         // Configuração das Sprite Sheets
         // Os tamanhos serão calculados automaticamente quando a imagem carregar
@@ -64,8 +64,8 @@ class Player {
         // Caminhos das suas sprite sheets
         const animPaths = {
             idle: 'assets/images/rat-idle.png',      // Frame único
-            walk: 'assets/images/rat-walkk.png',      // 5 frames de caminhada
-            attack: 'assets/images/rat-attackk.png'   // 5 frames de ataque
+            walk: 'assets/images/rat-walk.png',      // 5 frames de caminhada
+            attack: 'assets/images/rat-attack.png'   // 5 frames de ataque
         };
 
         for (const [animName, path] of Object.entries(animPaths)) {
@@ -262,7 +262,8 @@ class Player {
 
         const anim = this.animations[this.currentAnimation];
 
-        if (anim && anim.loaded && anim.image) {
+        // Verifica se tem sprite carregado E se tem tamanho válido
+        if (anim && anim.loaded && anim.image && anim.frameWidth > 0 && anim.frameHeight > 0) {
             // Calcula posição do frame na sprite sheet
             let frameX, frameY;
             
@@ -303,7 +304,7 @@ class Player {
 
             ctx.restore();
         } else {
-            // Fallback: emoji de rato
+            // Fallback SOMENTE se sprite não carregou
             this.drawFallback(ctx);
         }
 
@@ -332,7 +333,7 @@ class Player {
         ctx.font = '35px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(
+        ctx.fillText(Code 
             '🐀',
             this.x + this.width / 2,
             this.y + this.height / 2
