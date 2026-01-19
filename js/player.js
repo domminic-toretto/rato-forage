@@ -42,7 +42,7 @@ class Player {
                 frameWidth: 290,    // Será calculado
                 frameHeight: 64,   // Será calculado
                 loop: true,
-                vertical: true    // Frames empilhados verticalmente
+                vertical: false    // Frames empilhados verticalmente
             },
             attack: {
                 loaded: false,
