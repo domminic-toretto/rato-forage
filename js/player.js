@@ -2,7 +2,7 @@ class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.width = 120;  // Largura visual
+        this.width = 50;  // Largura visual
         this.height = 120; // Altura visual
         this.speed = 4;
         this.velocityX = 0;
