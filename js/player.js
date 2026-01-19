@@ -30,8 +30,8 @@ class Player {
                 loaded: false,
                 image: null,
                 frames: 1,
-                frameWidth: 320,   // rat-idle: 640x640
-                frameHeight: 320,
+                frameWidth: 1000,   // rat-idle: 640x640
+                frameHeight: 1000,
                 loop: true
             },
             walk: {
