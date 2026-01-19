@@ -4,8 +4,8 @@ class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.width = 60;  // Ajuste conforme o tamanho do seu sprite
-        this.height = 60;
+        this.width = 80;  // ← AUMENTEI de 60 para 80
+        this.height = 80; // ← AUMENTEI de 60 para 80
         this.speed = 4;
         this.velocityX = 0;
         this.velocityY = 0;
