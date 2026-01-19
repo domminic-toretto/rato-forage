@@ -33,7 +33,7 @@ class Game {
             this.backgroundLoaded = false;
         };
         
-        this.backgroundImage.src = 'assets/images/backgroundd.png';
+        this.backgroundImage.src = 'assets/images/background.png';
     }
 
     // Inicializa todos os sistemas
