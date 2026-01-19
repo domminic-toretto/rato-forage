@@ -2,7 +2,7 @@ class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.width = 50;  // Largura visual
+        this.width = 120;  // Largura visual
         this.height = 120; // Altura visual
         this.speed = 4;
         this.velocityX = 0;
@@ -35,7 +35,7 @@ class Player {
             walk: {
                 loaded: false,
                 image: null,
-                frames: 5,
+                frames: 3,
                 frameWidth: 0,   // Será calculado
                 frameHeight: 0,  // Será calculado
                 loop: true,
