@@ -161,7 +161,7 @@ class Game {
         
         // OPÇÃO 1: Gradiente Céu → Grama (Padrão)
         const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-        gradient.addColorStop(0, '#87CEEB');  // ← Céu azul claro
+        gradient.addColorStop(0, '#90EE90');  // ← Céu azul claro
         gradient.addColorStop(1, '#90EE90');  // ← Grama verde claro
         
         // OPÇÃO 2: Fundo Sólido (descomente para usar)
@@ -203,10 +203,10 @@ class Game {
 // Inicializa o jogo
 window.addEventListener('load', () => {
     console.log('🎮 Forager Game - Carregado!');
-    console.log('📚 SENAI Dr. Celso Charuri - 2026');
+    console.log('tiginho games GG - 2026');
     
     const game = new Game();
     window.game = game;
     
-    console.log('✅ Jogo pronto! Clique em INICIAR JOGO para começar.');
+    console.log('✅  Jogo pronto! Clique em INICIAR JOGO para começar.');
 });
