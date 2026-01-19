@@ -21,7 +21,7 @@ class Player {
         this.isAttacking = false;
         this.currentFrame = 0;
         this.frameTimer = 0;
-        this.frameDelay = 50; // ms entre frames (ajuste para mais suave/rápido)
+        this.frameDelay = 35; // ms entre frames (ajuste para mais suave/rápido)
         
         // Configuração das Sprite Sheets
         // Os tamanhos serão calculados automaticamente quando a imagem carregar
