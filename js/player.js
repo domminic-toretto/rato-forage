@@ -39,9 +39,9 @@ class Player {
                 image: null,
                 frames: 5,         // rat-walk: 2176x3264 = 5 frames verticais
                 frameWidth: 3264,  // Largura total
-                frameHeight: 10000 /5,  // Altura dividida por 5 frames = 652.8px por frame
+                frameHeight: 2176 /5,  // Altura dividida por 5 frames = 652.8px por frame
                 loop: true,
-                vertical: true     // Frames empilhados verticalmente
+                vertical: false     // Frames empilhados verticalmente
             },
             attack: {
                 loaded: false,
