@@ -19,7 +19,7 @@ class Player {
         this.isAttacking = false;
         this.currentFrame = 0;
         this.frameTimer = 0;
-        this.frameDelay = 80;
+        this.frameDelay = 120;
         
         // Configuração das Sprite Sheets
         this.animations = {
