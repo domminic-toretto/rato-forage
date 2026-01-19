@@ -24,31 +24,33 @@ class Player {
         this.frameDelay = 120; // ms entre frames (ajuste para mais suave/rápido)
         
         // Configuração das Sprite Sheets
-        // Baseado nas suas imagens: 5 frames de animação
+        // Tamanhos exatos das suas imagens
         this.animations = {
             idle: {
                 loaded: false,
                 image: null,
                 frames: 1,
-                frameWidth: 64,  // Ajuste conforme seu sprite
-                frameHeight: 64,
+                frameWidth: 640,   // rat-idle: 640x640
+                frameHeight: 640,
                 loop: true
             },
             walk: {
                 loaded: false,
                 image: null,
-                frames: 5,  // Sua sprite sheet tem 5 frames
-                frameWidth: 64,
-                frameHeight: 64,
-                loop: true
+                frames: 5,         // rat-walk: 2176x3264 = 5 frames verticais
+                frameWidth: 2176,  // Largura total
+                frameHeight: 3264 / 5,  // Altura dividida por 5 frames = 652.8px por frame
+                loop: true,
+                vertical: true     // Frames empilhados verticalmente
             },
             attack: {
                 loaded: false,
                 image: null,
-                frames: 5,  // Animação de ataque tem 5 frames
-                frameWidth: 64,
-                frameHeight: 64,
-                loop: false  // Ataque não loopa, toca uma vez
+                frames: 5,         // rat-attack: 3240x2160 = 5 frames horizontais
+                frameWidth: 3240 / 5,  // Largura dividida por 5 = 648px por frame
+                frameHeight: 2160,
+                loop: false,       // Ataque não loopa
+                vertical: false    // Frames lado a lado
             }
         };
 
@@ -148,6 +150,36 @@ class Player {
 
     // Processa input do teclado
     handleInput(keys) {
+        // Durante ataque, só aceita input de movimento (não congela)
+        if (this.isAttacking) {
+            // Permite movimento durante ataque
+            this.velocityX = 0;
+            this.velocityY = 0;
+            
+            if (keys['w'] || keys['ArrowUp']) {
+                this.velocityY = -this.speed * 0.5; // Movimento mais lento durante ataque
+            }
+            if (keys['s'] || keys['ArrowDown']) {
+                this.velocityY = this.speed * 0.5;
+            }
+            if (keys['a'] || keys['ArrowLeft']) {
+                this.velocityX = -this.speed * 0.5;
+                this.direction = 'left';
+            }
+            if (keys['d'] || keys['ArrowRight']) {
+                this.velocityX = this.speed * 0.5;
+                this.direction = 'right';
+            }
+            
+            // Normaliza velocidade diagonal
+            if (this.velocityX !== 0 && this.velocityY !== 0) {
+                const factor = Math.sqrt(2) / 2;
+                this.velocityX *= factor;
+                this.velocityY *= factor;
+            }
+            return;
+        }
+
         this.velocityX = 0;
         this.velocityY = 0;
         this.isMoving = false;
@@ -155,11 +187,8 @@ class Player {
         // Ataque com Space ou X
         if ((keys[' '] || keys['x'] || keys['X']) && !this.isAttacking) {
             this.attack();
-            return; // Não move durante ataque
+            return;
         }
-
-        // Não move se está atacando
-        if (this.isAttacking) return;
 
         // Movimento
         if (keys['w'] || keys['ArrowUp']) {
@@ -234,8 +263,18 @@ class Player {
 
         if (anim && anim.loaded && anim.image) {
             // Calcula posição do frame na sprite sheet
-            const frameX = this.currentFrame * anim.frameWidth;
-            const frameY = 0;
+            let frameX, frameY;
+            
+            // Verifica se é sprite sheet vertical ou horizontal
+            if (anim.vertical) {
+                // Frames empilhados verticalmente (walk)
+                frameX = 0;
+                frameY = this.currentFrame * anim.frameHeight;
+            } else {
+                // Frames lado a lado horizontalmente (attack, idle)
+                frameX = this.currentFrame * anim.frameWidth;
+                frameY = 0;
+            }
 
             // Salva contexto para flip horizontal
             ctx.save();
