@@ -19,7 +19,7 @@ class Player {
         this.isAttacking = false;
         this.currentFrame = 0;
         this.frameTimer = 0;
-        this.frameDelay = 120;
+        this.frameDelay = 150;
         
         // Configuração das Sprite Sheets
         this.animations = {
@@ -35,7 +35,7 @@ class Player {
             walk: {
                 loaded: false,
                 image: null,
-                frames: 2,
+                frames: 1,
                 frameWidth: 0,   // Será calculado
                 frameHeight: 0,  // Será calculado
                 loop: true,
