@@ -120,8 +120,8 @@ canvas.active {
 /* Inventário */
 #inventory-display {
     position: fixed;
-    top: 90px;
-    left: 19px;
+    top: 105px;
+    left: 20px;
     background: rgba(0, 0, 0, 0.85);
     padding: 15px;
     border: 3px solid #4CAF50;
