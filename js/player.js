@@ -39,8 +39,8 @@ class Player {
                 loaded: false,
                 image: null,
                 frames: 5,
-                frameWidth: 0,    // Será calculado
-                frameHeight: 0,   // Será calculado
+                frameWidth: 290,    // Será calculado
+                frameHeight: 64,   // Será calculado
                 loop: true,
                 vertical: true    // Frames empilhados verticalmente
             },
