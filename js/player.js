@@ -42,7 +42,7 @@ class Player {
                 // ⚠️ ATENÇÃO AQUI: 
                 // Se sua imagem é uma TORRE (vertical), mude para true. 
                 // Se é uma TIRA (horizontal), deixe false.
-                vertical: false 
+                vertical: true
             },
             attack: {
                 loaded: false,
