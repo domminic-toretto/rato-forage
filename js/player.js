@@ -38,7 +38,7 @@ class Player {
                 frames: 5,
                 frameWidth: 200,   // Será calculado
                 frameHeight: 64,  // Será calculado
-                loop: true,
+                loop: false,
                 // ⚠️ ATENÇÃO AQUI: 
                 // Se sua imagem é uma TORRE (vertical), mude para true. 
                 // Se é uma TIRA (horizontal), deixe false.
