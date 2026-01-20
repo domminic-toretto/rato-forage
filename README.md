@@ -2,7 +2,9 @@ Atividade EAD – Jogo Estilo Forager
 
 Programação de Jogos Digitais
 SENAI Dr. Celso Charuri
+
 Autor da atividade: Lucas Lopes
+
 Aluno: João Vitor
 
 Descrição do jogo
