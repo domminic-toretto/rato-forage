@@ -36,8 +36,8 @@ class Player {
                 loaded: false,
                 image: null,
                 frames: 1,
-                frameWidth: 0,   // Será calculado
-                frameHeight: 0,  // Será calculado
+                frameWidth: 290,   // Será calculado
+                frameHeight: 64,  // Será calculado
                 loop: true,
                 // ⚠️ ATENÇÃO AQUI: 
                 // Se sua imagem é uma TORRE (vertical), mude para true. 
