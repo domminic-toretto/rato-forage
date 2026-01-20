@@ -35,7 +35,7 @@ class Player {
             walk: {
                 loaded: false,
                 image: null,
-                frames: 1,
+                frames: 5,
                 frameWidth: 290,   // Será calculado
                 frameHeight: 64,  // Será calculado
                 loop: true,
