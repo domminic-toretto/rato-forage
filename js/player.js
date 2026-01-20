@@ -19,14 +19,14 @@ class Player {
         this.isAttacking = false;
         this.currentFrame = 0;
         this.frameTimer = 0;
-        this.frameDelay = 150;
+        this.frameDelay = 140;
         
         // Configuração das Sprite Sheets
         this.animations = {
             idle: {
                 loaded: false,
                 image: null,
-                frames: 10,
+                frames: 1,
                 frameWidth: 0,
                 frameHeight: 0,
                 loop: true,
